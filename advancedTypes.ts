@@ -1,4 +1,4 @@
-// vid #20 union - type narrowing
+// vid #20 Union - type narrowing
 function logId(id: string | number | boolean) {
   if (typeof id === 'string') console.log(id);
   else if (typeof id === 'number') console.log(id);
@@ -16,6 +16,12 @@ function logObject(obj: { a: number } | { b: number }) {
 }
 
 // =====================================================
-// vid #21 literal types
+// vid #21 Literal Types
 
+function fetchWithAuth(url: string, method: 'post' | 'get'): 1 | -1 {
+    return 1
+}
+
+// =====================================================
+// vid #22 Type Aliases
 
