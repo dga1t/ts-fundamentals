@@ -52,3 +52,38 @@ let user: UserWithRole = {
 
 // =====================================================
 // vid #23 Interfaces
+
+interface IUser {
+  name: string;
+  age: number;
+  skills: string[];
+
+  log: (id: number) => string;
+}
+
+interface IRole {
+  roleId: number;
+}
+
+interface IUserWithRole extends IUser, IRole {
+  createdAt: Date;
+}
+
+let user2: IUserWithRole = {
+  name: 'asd',
+  age: 33,
+  skills: ['1', '2'],
+  roleId: 1,
+  createdAt: new Date(),
+
+  log(id) {
+    return '';
+  },
+};
+
+interface UserDic {
+  [index: number]: IUser;
+}
+
+// =====================================================
+// vid #24 Types or Interfaces ??
