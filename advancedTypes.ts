@@ -119,7 +119,7 @@ function test(param?: string) {
 
 enum PaymentStatus {
   Success = 'success',
-  Failed = 'failed'
+  Failed = 'failed',
 }
 
 interface IPayment {
@@ -150,4 +150,10 @@ interface IResponseFailed {
 }
 
 // =====================================================
-// vid #27 Void
+// vid #27 Void - key difference from undefined is that when function returns void - it can be any type and it will be ignored
+
+// =====================================================
+// vid #28 Unknown - is more strict than any, and should be used instead of any whenever we dont know exact type.
+
+// =====================================================
+// vid #29 Never
