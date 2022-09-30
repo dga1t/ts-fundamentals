@@ -157,3 +157,21 @@ interface IResponseFailed {
 
 // =====================================================
 // vid #29 Never
+
+function generateError(message: string): never {
+  throw new Error(message);
+}
+
+function dumpError(): never {
+  while (true) {}
+}
+
+function rec(): never {
+  return rec();
+}
+
+type paymentAction = 'refund' | 'checkout';
+
+function processAction(action: paymentAction) {
+  
+}
