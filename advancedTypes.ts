@@ -170,8 +170,12 @@ function rec(): never {
   return rec();
 }
 
-type paymentAction = 'refund' | 'checkout';
+function isString(x: string | number): boolean {
+  if (typeof x === 'string') return true;
+  else if (typeof x === 'number') return false;
 
-function processAction(action: paymentAction) {
-  
+  generateError('asdfg'); // fixes error 'return type does not include undefined' 
 }
+
+// =====================================================
+// vid #30 Null
