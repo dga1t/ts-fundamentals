@@ -179,3 +179,11 @@ function isString(x: string | number): boolean {
 
 // =====================================================
 // vid #30 Null
+
+// tsconfig -> strictNullChecks should be always be true
+// when there is no obj to return -> null should be used
+
+// =====================================================
+// vid #31  
+
+
