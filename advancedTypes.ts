@@ -174,7 +174,7 @@ function isString(x: string | number): boolean {
   if (typeof x === 'string') return true;
   else if (typeof x === 'number') return false;
 
-  generateError('asdfg'); // fixes error 'return type does not include undefined' 
+  generateError('asdfg'); // fixes error 'return type does not include undefined'
 }
 
 // =====================================================
@@ -184,6 +184,27 @@ function isString(x: string | number): boolean {
 // when there is no obj to return -> null should be used
 
 // =====================================================
-// vid #31  
+// vid #31 Cast types
 
+// =====================================================
+// vid #32 Type Guard
 
+// simple type guard function as an example
+function isStringAgain(x: string | number): x is string {
+  return typeof x === 'string';
+}
+
+// =====================================================
+// vid #33 Practice exercise
+
+type Res = IResponseSuccess | IResponseFailed;
+
+function isSuccess(res: Res): res is IResponseSuccess {
+  if (res.status === PaymentStatus.Success) return true;
+  return false;
+}
+
+function getIdFromData(res: Res): number {
+  if (isSuccess(res)) return res.data.databaseId;
+  else throw new Error(res.data.errorMessage);
+}
