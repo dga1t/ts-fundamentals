@@ -7,6 +7,7 @@
 // =====================================================
 // vid #36 Constructor
 
+// 'new' triggers constructor function
 // in TS constructor can be overloaded
 
 // =====================================================
@@ -51,3 +52,66 @@ class Logger implements ILogger {
 
 // =====================================================
 // vid #41 Extends
+
+// =====================================================
+// vid #42 Peculiarities of extends
+
+// 'super' should always go before referencing any class properties
+
+class HttpError extends Error {
+  code: number;
+
+  constructor(message: string, code?: number) {
+    super(message);
+    this.code = code ?? 500;
+  }
+}
+
+// =====================================================
+// vid #43 Composition vs Inheritance
+
+// this kind of inheritance from utilitary class, like Array, should be avoided
+class Users extends Array<User> {
+  searchByName(name: string) {
+    return this.filter((u) => u.name === name);
+  }
+
+  override toString(): string {
+    return this.map((u) => u.name).join(', ');
+  }
+}
+
+// composition is a better option in this case
+class UserList {
+  users: User[];
+
+  push(u: User) {
+    this.users.push(u);
+  }
+}
+
+// ----------- another example ------------
+
+class Payment {
+  date: Date;
+}
+
+// again inheritance should be avoided here because it violates DDD (domain driven design) principle
+// because User and Payment belong to different domains
+class UserWithPayment extends Payment {
+  name: string;
+}
+
+// composition is a better option again
+class UserWithPayment2 {
+  user: User;
+  payment: Payment;
+
+  constructor(user: User, payment: Payment) {
+    this.payment = payment;
+    this.user = user;
+  }
+}
+
+// =====================================================
+// vid #44 Visibility of properties
