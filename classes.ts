@@ -115,3 +115,92 @@ class UserWithPayment2 {
 
 // =====================================================
 // vid #44 Visibility of properties
+
+// property 'private' is only for typescript - in js we still can access it
+// property 'protected' is different from 'private' - it can be accessed inside an inherited class
+// in JS 'private' property is marked as '#'
+
+// on the backend it is not really neccessary to make properties JS private (#)
+// because no script from outside cant access it anyway (?)
+
+// also private properties can be compared
+
+// =====================================================
+// vid #45 Exercise
+
+class Product {
+  constructor(public id: number, public name: string, public price: number) {}
+}
+
+class Delivery {
+  constructor(public date: Date) {}
+}
+
+class HomeDelivery extends Delivery {
+  constructor(date: Date, public adress: string) {
+    super(date);
+  }
+}
+
+class ShopDelivery extends Delivery {
+  constructor(date: Date, public shopId: number) {
+    super(new Date());
+  }
+}
+
+type DeliveryOptions = HomeDelivery | ShopDelivery;
+
+class Cart {
+  private products: Product[] = [];
+  private delivery: DeliveryOptions;
+
+  public addProduct(product: Product): void {
+    this.products.push(product);
+  }
+
+  public deleteProduct(productId: number): void {
+    this.products = this.products.filter((p: Product) => p.id !== productId);
+  }
+
+  public getSum(): number {
+    return this.products
+      .map((p: Product) => p.price)
+      .reduce((p1: number, p2: number) => p1 + p2);
+  }
+
+  public setDelivery(delivery: DeliveryOptions): void {
+    this.delivery = delivery;
+  }
+
+  public checkout() {
+    if (this.products.length == 0) throw new Error('The cart is empty');
+    if (!this.delivery) throw new Error('Delivery method is missing');
+    return { success: true };
+  }
+}
+
+// =====================================================
+// vid #46 Static
+
+class UserService {
+  private static db: any;
+
+  static getUser(id: number) {
+    return UserService.db.findById(id);
+  }
+
+  constructor(id: number) {}
+
+  create() {
+    UserService.db;
+  }
+
+  // since recently classes can have static blocks
+  // cant have async code inside this static block
+  static {
+    UserService.db = 'dbName';
+  }
+}
+
+// =====================================================
+// vid #47 Working with 'this'
