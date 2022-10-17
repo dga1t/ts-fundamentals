@@ -204,3 +204,78 @@ class UserService {
 
 // =====================================================
 // vid #47 Working with 'this'
+
+// in ts we can pass 'this' as an argument to methods to keep the context
+
+// another way to achieve this is to use an arrow function
+// but we should be careful when using arrow function from inherited class
+// because it is not going to be on the prototype chain of the parent class (ex: super.arrowFunc())
+
+// =====================================================
+// vid #48 Type 'this'
+
+// there is a special type for 'this' in ts
+class UserBuilder {
+  name: string;
+
+  setName(name: string): this {
+    this.name = name;
+    return this;
+  }
+
+  // using type guard
+  isAdmit(): this is AdminBuilder {
+    return this instanceof AdminBuilder;
+  }
+}
+
+class AdminBuilder extends UserBuilder {
+  roles: string[];
+}
+
+// =====================================================
+// vid #49 Abstract classes
+
+// abstract classes cant be instantiated and are only used to inherite from
+// and are widely used in different frameworks
+
+// abstract class differs from interface in that it can have normal methods as well
+// and also we can call abstract methods inside an abstract class
+
+abstract class Controller {
+  abstract handle(req: any): void;
+
+  handleWithLogs(req: any) {
+    console.log('start');
+    this.handle(req);
+    console.log('end');
+  }
+}
+
+class UserController extends Controller {
+  handle(req: any): void {
+    console.log(req);
+  }
+}
+
+// =====================================================
+// vid #50 Exercise - abstract logger
+
+abstract class LoggerTwo {
+  abstract log(message: string): void;
+
+  printDate(date: Date) {
+    this.log(date.toString());
+  };
+}
+
+class CustomLogger extends LoggerTwo {
+  log(message: string): void {
+    console.log(message);
+  }
+
+  logWithDate(message: string) {
+    this.printDate(new Date());
+    this.log(message);
+  }
+}
