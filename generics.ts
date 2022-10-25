@@ -189,6 +189,6 @@ const list = ExtendedList(AccordeonList);
 const result = new list(['first', 'second']);
 console.log(result.first());
 
-// so a mixin allows us extend from multiple classes at the same time with typechecking
+// so a mixin allows us to extend from multiple classes at the same time with typechecking
 // mixins are widely used in DCI (data, context and interaction) paradigm
 // and are usefull when you are building complex structures from small parts
