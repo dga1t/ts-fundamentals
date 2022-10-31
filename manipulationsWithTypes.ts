@@ -91,10 +91,69 @@ interface User2 {
 
 type rolesType = User2['roles'];
 type roleType = User2['roles'][number];
-type dateType = User2['permission']['endDate']
+type dateType = User2['permission']['endDate'];
 
 // this is a usefull hack if you want to 'convert' some runtime strings
 // to types that you can use later on
 const roles = ['admin', 'user', 'superuser'] as const;
 type roleTypes = typeof roles[number];
 
+// =====================================================
+// vid #72 Conditional Types
+
+interface HTTPresponse<T extends 'success' | 'failure'> {
+  code: number;
+  data: T extends 'success' ? string : Error;
+  moreData: T extends 'success' ? string : number;
+}
+
+// =====================================================
+// vid #73 Infer
+
+function runTransaction(transaction: { fromTo: [string, string] }) {
+  console.log(transaction);
+}
+
+const transaction: GetFirstArg<typeof runTransaction> = {
+  fromTo: ['1', '2'],
+};
+
+runTransaction(transaction);
+
+// infer 'pulls out' the needed type
+type GetFirstArg<T> = T extends (first: infer First, ...args: any[]) => any
+  ? First
+  : never;
+
+// so infer is used very rarely - usually, when some third party module is poorly typed
+
+// =====================================================
+// vid #74 Mapped Types
+
+type Modifier = 'read' | 'update' | 'create';
+
+type UserRoles = {
+  customers?: Modifier,
+  projects?: Modifier,
+  adminPanel?: Modifier,
+}
+
+// bad example because if UserRoles changes we need to change UserAccess as well
+type UserAccessOne = {
+  customers?: boolean,
+  projects?: boolean,
+  adminPanel?: boolean,  
+}
+
+// mapper helps us here
+type ModifierToAccess<Type> = {
+  [Property in keyof Type]: boolean;
+}
+// also can be used like [Property in keyof Type]+? or [Property in keyof Type]-?
+// to add or remove optional properties
+// + see the docs for other mapped types modification options 
+
+type UserAccessTwo = ModifierToAccess<UserRoles>;
+
+// =====================================================
+// vid #75 Exercise
