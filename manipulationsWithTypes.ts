@@ -157,3 +157,39 @@ type UserAccessTwo = ModifierToAccess<UserRoles>;
 
 // =====================================================
 // vid #75 Exercise
+
+interface IForm {
+  name: string;
+  password: string;
+}
+
+const form: IForm = {
+  name: 'Vasya',
+  password: '123',
+}
+
+const formValidation: Validation<IForm> = {
+  name: { isValid: true },
+  password: { isValid: false, errorMessage: 'Must be at least 5 characters long' },
+}
+
+type Validation<T> = {
+  [K in keyof T]: {
+    isValid: true
+  } | {
+    isValid: false;
+    errorMessage: string;
+  }
+}
+
+// =====================================================
+// vid #76 Template Literal Types
+
+type ReadOrWrite = 'read' | 'write';
+type Bulk = 'bulk' | '';
+
+type Access = `can${Capitalize<ReadOrWrite>}${Capitalize<Bulk>}`;
+
+// also we can do the other way round and extract types using 'infer'
+type ReadOrWriteBulk<T> = T extends `can${infer R}` ? R : never;
+type T = ReadOrWriteBulk<Access>;
