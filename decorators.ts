@@ -128,3 +128,69 @@ function Log(
 // =====================================================
 // vid #88 Exercise
 
+class UserServiceFive implements IUserService {
+  users: number = 1000;
+
+  @Catch({ rethrow: true })
+  getUsersInDatabase(): number {
+    throw new Error('error');
+  }
+}
+
+// its better to use an object as an argument here for readability
+function Catch({ rethrow }: { rethrow: boolean } = { rethrow: true }) {
+  return (
+    target: Object,
+    _: string | symbol,
+    descriptor: TypedPropertyDescriptor<(...args: any[]) => any>
+  ): TypedPropertyDescriptor<(...args: any[]) => any> | void => {
+    const method = descriptor.value;
+
+    descriptor.value = async (...args: any[]) => {
+      try {
+        return await method?.apply(target, args);
+      } catch (e) {
+        if (e instanceof Error) {
+          console.log(e.message);
+          if (rethrow) throw e;
+        }
+      }
+    };
+  };
+}
+
+// =====================================================
+// vid #89 Property decorator
+
+class UserServiceSix implements IUserService {
+  @Max(100)
+  users: number = 1000;
+
+  getUsersInDatabase(): number {
+    throw new Error('error');
+  }
+}
+
+function Max(max: number) {
+  return (target: Object, propertyKey: string | symbol) => {
+    let value: number;
+    const setter = function (newValue: number) {
+      if (newValue > max) console.log(`Cant be more then ${max}`);
+      else value = newValue;
+    };
+    const getter = function () {
+      return value;
+    };
+
+    Object.defineProperty(target, propertyKey, {
+      set: setter,
+      get: getter,
+    });
+  };
+}
+
+// =====================================================
+// vid #90 Accessor decorator
+
+// =====================================================
+// vid #91 Parameter decorator
