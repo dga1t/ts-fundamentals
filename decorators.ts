@@ -6,7 +6,7 @@ interface IUserService {
   getUsersInDatabase(): number;
 }
 
-@nullUser
+// @nullUser
 class UserServiceOmg implements IUserService {
   users: number = 1000;
 
@@ -193,4 +193,38 @@ function Max(max: number) {
 // vid #90 Accessor decorator
 
 // =====================================================
-// vid #91 Parameter decorator
+// vid #91 Parameter decorator && #92 Metadata
+
+import 'reflect-metadata';
+
+// reflect-metadata is a package that is used under the hood in many frameworks
+// for example nestjs - dependency injection relies on it
+
+interface IUserServiceSeven {
+  getUsersInDatabase(): number;
+}
+
+class UserServiceSeven implements IUserServiceSeven {
+  private _users: number;
+
+  getUsersInDatabase(): number {
+    return this._users;
+  }
+
+  setUsersInDatabase(@Positive() num: number): void {
+    this._users = num;
+  }
+}
+
+function Positive() {
+  return (
+    target: Object,
+    propertyKey: string | symbol,
+    parameterIndex: number
+  ) => {
+    console.log(Reflect.getOwnMetadata('design:type', target, propertyKey));
+  };
+}
+
+// =====================================================
+// vid #93 Order of decorators
