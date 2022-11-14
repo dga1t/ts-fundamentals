@@ -23,7 +23,7 @@ namespace A {
 // =====================================================
 // vid #98 Import and export
 
-// legal import examples 
+// legal import examples
 
 // import run, { a, type MyType } from './module/app';
 // import running from './module/app';
@@ -33,3 +33,9 @@ namespace A {
 
 // =====================================================
 // vid #99 Third party libs types
+
+// example of creating types for a 'really-relaxed-json' module
+declare module 'really-relaxed-json' {
+  export function toJson(rjsonString: string, compact?: boolean): string;
+}
+
