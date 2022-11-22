@@ -268,3 +268,134 @@ item.deleteDoc();
 
 // =====================================================
 // vid #116 Strategy
+
+// its an algoritm where we pick similar patterns/algorithms in our system,
+// create a class for them and can swap/change these strategies on the fly
+
+// is often used for authorization (jwt/google/or other auths)
+// nest.js and passport.js use strategy pattern for authorization
+
+class UserEight {
+  gitHubToken: string;
+  jwtToken: string;
+}
+
+interface IAuthStrategy {
+  auth(user: UserEight): boolean;
+}
+
+class Auth {
+  constructor(private strategy: IAuthStrategy) {}
+
+  setStrategy(strategy: IAuthStrategy) {
+    this.strategy = strategy;
+  }
+
+  public authUser(user: UserEight): boolean {
+    return this.strategy.auth(user);
+  }
+}
+
+class JWTStrategy implements IAuthStrategy {
+  auth(user: UserEight): boolean {
+    if (user.jwtToken) return true;
+    return false;
+  }
+}
+
+class GitHubStrategy implements IAuthStrategy {
+  auth(user: UserEight): boolean {
+    if (user.gitHubToken) return true;
+    return false;
+  }
+}
+
+const userEight = new UserEight();
+userEight.jwtToken = 'token';
+const authTwo = new Auth(new JWTStrategy());
+console.log(authTwo.authUser(userEight));
+authTwo.setStrategy(new GitHubStrategy());
+
+// =====================================================
+// vid #117 Iterator
+
+class Task {
+  constructor(public priority: number) {}
+}
+
+class TaskList {
+  private tasks: Task[] = [];
+
+  public sortByPriority() {
+    this.tasks = this.tasks.sort((a, b) => {
+      if (a.priority > b.priority) return 1;
+      else if (a.priority == b.priority) return 0;
+      else return -1;
+    });
+  }
+
+  public addTask(task: Task) {
+    this.tasks.push(task);
+  }
+
+  public getTasks() {
+    return this.tasks;
+  }
+
+  public count() {
+    return this.tasks.length;
+  }
+
+  public getIterator() {
+    // can be changed on the go - PriorityTaskIterator is hardcoded as example
+    return new PriorityTaskIterator(this);
+  }
+}
+
+interface IIterator<T> {
+  current(): T | undefined;
+  next(): T | undefined;
+  prev(): T | undefined;
+  index(): number;
+}
+
+class PriorityTaskIterator implements IIterator<Task> {
+  private position: number = 0;
+  private taskList: TaskList;
+
+  constructor(taskLikst: TaskList) {
+    taskLikst.sortByPriority();
+    this.taskList = taskLikst;
+  }
+
+  current(): Task | undefined {
+    return this.taskList.getTasks()[this.position];
+  }
+  next(): Task | undefined {
+    this.position += 1;
+    return this.taskList.getTasks()[this.position];
+  }
+  prev(): Task | undefined {
+    this.position -= 1;
+    return this.taskList.getTasks()[this.position];
+  }
+  index(): number {
+    return this.position;
+  }
+}
+
+const taskList = new TaskList();
+taskList.addTask(new Task(8));
+taskList.addTask(new Task(1));
+taskList.addTask(new Task(4));
+const iterator = taskList.getIterator();
+console.log(iterator.current());
+console.log(iterator.next());
+console.log(iterator.index());
+
+// so important is that with help of iterator we can navigate over our list easyly
+// iterator is especially usefull when we have not just an array but a tree
+
+// =====================================================
+// vid #118 Template Method
+
