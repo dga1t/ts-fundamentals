@@ -399,3 +399,11 @@ console.log(iterator.index());
 // =====================================================
 // vid #118 Template Method
 
+// the pattern is usefull when we have a certain sequence of required steps to achieve something
+// but implementation of each particular step can be vary, depending on circumstanses
+// so we represent this sequence as a template method 
+
+// =====================================================
+// vid #119 Observer
+
+
