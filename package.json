@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +18,10 @@
   },
   "homepage": "https://github.com/dga1t/ts-fundamentals#readme",
   "dependencies": {
+    "inquirer": "^9.1.4",
     "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9"
   }
 }
